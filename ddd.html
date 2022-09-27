@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+	<meta charset="utf-8" name="viewport" content="user-scalable=no">
 	<link rel="stylesheet" href="style2.css" />
 	<header>
 		<a href="https://spamigor.site"><h1>Вернуться на основную страницу Толянуса</h1></a>
 	</header>
 	<div id="content"></div>
 	<button id="ssss">sssss</button>
+	<button id="ssssq">sssssq</button>
 
 	<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 	<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -13,16 +15,6 @@
 
 	<script type="text/babel">
 		let root=ReactDOM.createRoot(document.getElementById("content"));
-		document.getElementById('ssss').onclick = function() {
-			console.log('hello');
-			listData.check.push(false);
-			listData.name.push('aaa');
-			listData.total.push(3);
-			listData.posTotal+=1;
-			root.render(<Table />);
-			console.log('list data 1');
-			console.log(listData);
-		}
         /*let socket = new WebSocket("wss://spamigor.site:8080", 'echo-protocol');
 		socket.onopen = function(e) {
 			console.log('Соккет открыт');
@@ -35,84 +27,123 @@
 			console.log(event.data);
         };*/
 
-        let listData = {
+		let setList = 0;
+		let users = false;
+		let menu = true;
+
+        let listData = [{
+			listName: 'Список покупок 1',
+			users: ['spamigor'],
 			check: [false, false],
 			name: ['Название', 'арбуз'],
 			total: [0,1],
 			posTotal: 1,
 			valBuf: 0
-		};
+		},{
+			listName: 'Список покупок 2',
+			users: ['spamigor'],
+			check: [false, true],
+			name: ['Название', 'дыня'],
+			total: [0,3],
+			posTotal: 1,
+			valBuf: 0
+		}];
 		class Table extends React.Component {
-			constructor(props) {
-				super(props);
+			constructor() {
+				super();
 				this.state = listData;
 			}
 			handleName(event) {
-				this.setState({value: event.target.value});
+				this.state[setList].value = event.target.value;
+				this.setState(this.state);
 			}
 			handleTotal(event) {
 				let trig = Number(event.target.value) ? true : false;
 				if (trig)
 				{
-					this.state.value2 = event.target.value;
-					this.state.valBuf = event.target.value;
+					this.state[setList].value2 = event.target.value;
+					this.state[setList].valBuf = event.target.value;
 					this.setState(this.state);
 				}
 				else {
-					let a = this.state.valBuf;
-					if (a>0) this.setState({value2: a});
-					else this.setState({value2: ''});
+					this.state[setList].value2 = event.target.value;
+					if (a>0) this.setState(this.state);
+					else {
+						this.state[setList].value2 = '';
+						this.setState(this.state);
+					}
 				}
 			}
 			handleCheck(event) {
-				this.setState({value3: event.target.value});
+				this.state[setList].value3 = event.target.value;
+				this.setState(this.state);
 			}
 
 			handleSubmit(event) {
-				this.state.check.push(false);
-				this.state.name.push(this.state.value);
-				this.state.total.push(Number(this.state.value2));
-				this.state.value = '';
-				this.state.value2 = '';
-				this.state.value3 = false;
-				this.state.valBuf = 0;
-				listData.posTotal+=1;
-				this.state.posTotal = listData.posTotal;
+				console.log(this.state[setList]);
+				console.log(event);
+				this.state[setList].check.push(false);
+				this.state[setList].name.push(this.state[setList].value);
+				this.state[setList].total.push(Number(this.state[setList].value2));
+				this.state[setList].value = '';
+				this.state[setList].value2 = '';
+				this.state[setList].value3 = false;
+				this.state[setList].valBuf = 0;
+				listData[setList].posTotal+=1;
+				this.state[setList].posTotal = listData[setList].posTotal;
 				this.setState(this.state);
                 //socket.send('add Data');
 				event.preventDefault(); //отменяем отправку формы
+				console.log('list data 2');
+				console.log(listData);
 			}
 			handleChange(event) {
-				this.state.check.splice(event.target.value, 1);
-				this.state.name.splice(event.target.value, 1);
-				this.state.total.splice(event.target.value, 1);
-				listData.posTotal-=1;
-				this.state.posTotal = listData.posTotal;
+				this.state[setList].check.splice(event.target.value, 1);
+				this.state[setList].name.splice(event.target.value, 1);
+				this.state[setList].total.splice(event.target.value, 1);
+				listData[setList].posTotal-=1;
+				this.state[setList].posTotal = listData[setList].posTotal;
                 //socket.send('del Data');
 				this.setState(this.state);
 			}
 
 			handleCheck(event) {
-				this.state.check[event.target.value]=!this.state.check[event.target.value];
+				this.state[setList].check[event.target.value]=!this.state[setList].check[event.target.value];
 				this.setState(this.state);
                 //socket.send('check Data');
+			}
+			handleMenu(event) {
+				if (event.target.value==='menu') {
+					menu=true;
+				}
+				else {
+					users=!users;
+				}
+				this.setState(this.state);
+			}
+			handleList(event) {
+				menu=false;
+				console.log('event.target.value');
+				console.log(event.target.value);
+				setList=event.target.value;
+				this.setState(this.state);
 			}
 
 			render() {
 				let arr = [], arrName;
-				for (let i=1; i<this.state.posTotal+1; i++) {
-					let a = (this.state.check[i] ? 'line' : 'noLine');
+				for (let i=1; i<this.state[setList].posTotal+1; i++) {
+					let a = (this.state[setList].check[i] ? 'line' : 'noLine');
 					arr.push(
 						<tr key={i}  id="tesst">
 							<td className="tdList"><input className="listBox" id="checkbox" type="checkbox" value={i} 
-								checked={this.state.check[i]} onChange={this.handleCheck.bind(this)} />
-							<p className="listBox" id={a}>{this.state.name[i]}</p></td>
-							<td className="tdList" id="tdList2"><p className="listBox">{this.state.total[i]} шт.</p>
+								checked={this.state[setList].check[i]} onChange={this.handleCheck.bind(this)} />
+							<p className="listBox" id={a}>{this.state[setList].name[i]}</p></td>
+							<td className="tdList" id="tdList2"><p className="listBox">{this.state[setList].total[i]} шт.</p>
 							<button className="listBox" value={i} onClick={this.handleChange.bind(this)}>Удалить</button></td>
 						</tr>
 				)};
-				arr.length>0 ? arrName=<h3>Список покупок</h3> : arrName=<h3>Список пуст</h3>
-				return <div id="ddiv">
+				arr.length>0 ? arrName=<h3>{this.state[setList].listName}</h3> : arrName=<h3>Список пуст</h3>
+				let fullList = <div id="ddiv">
 					<table id="list">
 						{arrName}
 						{arr}
@@ -121,22 +152,64 @@
 						<h2>Добавить в список</h2>
 						<div id="seckondLine">
 							<div className="formDiv" id="nameInp">
-								<p className="formLable">{this.state.name[0]}</p>
-								<input className="formInp" value={this.state.value} onChange={this.handleName.bind(this)} required />
+								<p className="formLable">{this.state[setList].name[0]}</p>
+								<input className="formInp" value={this.state[setList].value} onChange={this.handleName.bind(this)} required />
 							</div>
 							<div className="formDiv" id="totalInp">
 								<p className="formLable">Количество</p>
-								<input className="formInp" value={this.state.value2} onChange={this.handleTotal.bind(this)} required />
+								<input className="formInp" value={this.state[setList].value2} onChange={this.handleTotal.bind(this)} required />
 							</div>
 							<input className="button" type="submit" />
 						</div>
 					</form>
+				</div>;
+				let usersButtonsText = (users ? 'Скрыть' : 'Пользователи');
+				let settingButtons = 
+					<div id="setButtons">
+						<button className='menuButton' value='menu' onClick={this.handleMenu.bind(this)}>Вернуться к выбору</button>
+						<button className='menuButton' value='users' onClick={this.handleMenu.bind(this)}>{usersButtonsText}</button>
+					</div>;
+				let listlist = listData.map((item, index) => <button className='checkLists' value={index} onClick={this.handleList.bind(this)}>{item.listName}</button>);
+				let readyList = listlist;
+				let readyButtons;
+				let readyUsersButtons;
+				let usersButtons = listData[setList].users.map((item, index) => <button className='usersList' value={index}>{item}</button>);
+				if (!menu) {
+					readyList = fullList;
+					readyButtons = settingButtons;
+				}
+				if (users) readyUsersButtons = usersButtons;
+				return <div id='result'>
+						{readyButtons}
+						<div>
+							{readyUsersButtons}
+						</div>
+						{readyList}
 				</div>
 			}
 		}
+		let ama = new Table;
 		ReactDOM.render(
 					<Table />,
 					document.getElementById('content')
-				)
+				);
+		
+		document.getElementById('ssss').onclick = function() {
+			listData[setList].check.push(false);
+			listData[setList].name.push('aaa');
+			listData[setList].total.push(3);
+			listData[setList].posTotal+=1;
+			console.log('state');
+			console.log(this.state);
+			root.render(<Table />);
+			console.log('list data 1');
+			console.log(listData);
+		}
+		
+		document.getElementById('ssssq').onclick = function() {
+			root.render(<Table />);
+			console.log('list data 1');
+			console.log(listData);
+		}
 	</script>
 </html>
