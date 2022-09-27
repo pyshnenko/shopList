@@ -1,0 +1,129 @@
+    <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
+	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
+	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+
+	<script type="text/babel">
+        let socket = new WebSocket("wss://spamigor.site:8080", 'echo-protocol');
+		socket.onopen = function(e) {
+			console.log('Соккет открыт');
+			socket.send('li: hello');
+		};
+		socket.onclose = function(e) {
+			console.log('соккет закрыт')
+		};
+		socket.onmessage = function(event) {
+			console.log(event.data);
+        };
+
+        let listData = {
+			check: [false],
+			name: ['Название'],
+			total: [0],
+			posTotal: 0,
+			valBuf: 0
+		};
+		class Table extends React.Component {
+			constructor(buf) {
+				super();
+				let _buf = listData;
+				this.state = _buf;
+			}
+
+			handleName(event) {
+				this.setState({value: event.target.value});
+				console.log('hello');
+			}
+			handleTotal(event) {
+				let trig = Number(event.target.value) ? true : false;
+				if (trig)
+				{
+					this.state.value2 = event.target.value;
+					this.state.valBuf = event.target.value;
+					this.setState(this.state);
+				}
+				else {
+					let a = this.state.valBuf;
+					if (a>0) this.setState({value2: a});
+					else this.setState({value2: ''});
+				}
+				console.log('hello');
+			}
+			handleCheck(event) {
+				this.setState({value3: event.target.value});
+				console.log('hello');
+			}
+
+			handleSubmit(event) {
+				console.log(this.state);
+				this.state.check.push(false);
+				this.state.name.push(this.state.value);
+				this.state.total.push(this.state.value2);
+				this.state.value = '';
+				this.state.value2 = '';
+				this.state.value3 = false;
+				this.state.valBuf = 0;
+				this.state.posTotal+=1;
+				console.log(this.state);
+				this.setState(this.state);
+                socket.send('add Data');
+				event.preventDefault(); //отменяем отправку формы
+			}
+			handleChange(event) {
+				this.state.check.splice(event.target.value);
+				this.state.name.splice(event.target.value);
+				this.state.total.splice(event.target.value);
+				this.state.posTotal-=1;
+                socket.send('del Data');
+				this.setState(this.state);
+			}
+
+			handleCheck(event) {
+				console.log(event.target.value);
+				this.state.check[event.target.value]=!this.state.check[event.target.value];
+				this.setState(this.state);
+                socket.send('check Data');
+			}
+
+			render() {
+				let arr = [], arrName;
+				for (let i=1; i<this.state.posTotal+1; i++) {
+					let a = (this.state.check[i] ? 'line' : 'noLine');
+					arr.push(
+						<tr key={i}  id="tesst">
+							<td className="tdList"><input className="listBox" id="checkbox" type="checkbox" value={i} 
+								checked={this.state.check[i]} onChange={this.handleCheck.bind(this)} />
+							<p className="listBox" id={a}>{this.state.name[i]}</p></td>
+							<td className="tdList" id="tdList2"><p className="listBox">{this.state.total[i]} шт.</p>
+							<button className="listBox" value={i} onClick={this.handleChange.bind(this)}>Удалить</button></td>
+						</tr>
+				)};
+				arr.length>0 ? arrName=<h3>Список покупок</h3> : arrName=<h3>Список пуст</h3>
+				return <div id="ddiv">
+					<table id="list">
+						{arrName}
+						{arr}
+					</table>
+					<form onSubmit={this.handleSubmit.bind(this)} id="formPut">
+						<h2>Добавить в список</h2>
+						<div id="seckondLine">
+							<div className="formDiv" id="nameInp">
+								<p className="formLable">{this.state.name[0]}</p>
+								<input className="formInp" value={this.state.value} onChange={this.handleName.bind(this)} required />
+							</div>
+							<div className="formDiv" id="totalInp">
+								<p className="formLable">Количество</p>
+								<input className="formInp" value={this.state.value2} onChange={this.handleTotal.bind(this)} required />
+							</div>
+							<input className="button" type="submit" />
+						</div>
+					</form>
+				</div>
+			}
+		}
+		ReactDOM.render(
+					<Table />,
+					document.getElementById('content')
+				)
+	</script>

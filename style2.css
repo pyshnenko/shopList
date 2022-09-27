@@ -1,0 +1,283 @@
+html {
+    background-color: RGB(231, 250, 255);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+h1 {
+    margin: 0px 0px 10px 0px;
+    padding: 10px;
+    background-color: deepskyblue;
+    border-radius: 20px;
+    box-shadow: 0 0 10px deepskyblue;
+    font-family: cursive;
+    font-size: x-large;
+}
+
+h1:focus {
+    box-shadow: 0 0 10px black;
+}
+h1:hover {
+    box-shadow: 0 0 10px black;
+}
+h1:active {
+    box-shadow: 0 0 0px black;
+}
+
+body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+#list {
+    background-color: linen;
+    width: 80%;
+    border: 2px solid black;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 0 10px;
+}
+
+.listBox {
+    margin: 0;
+    padding-left: 10px;
+}
+
+#checkbox {
+    zoom: 2;
+}
+
+#tdList2 {
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+h3 {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 24px;
+    padding: 10px;
+    margin: -2px;
+    border: 1px solid black;
+}
+
+.tdList {
+    display: flex;
+}
+
+#content {
+    width: 100%;
+}
+
+#ddiv {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+#tesst {
+    background-color: linen;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid black;
+    padding: 7px;
+    font-size: 20px;
+    font-family: sans-serif;
+    margin: -2px;
+}
+
+#formPut {
+    font-size: 20px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    margin: 20px;
+    padding: 20px;
+    font-family: sans-serif;
+    width: 80%;
+    background-color: white;
+    box-shadow: 0 0 10px black;
+}
+
+#seckondLine {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+h2 {
+    margin: 0 0 10px 0;
+    padding: 0;
+    font-family: revert;
+    font-size: 26px;
+}
+
+.button {
+    width: 20%;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 0 5px black;
+    height: 40px;
+    font-size: 24px;
+    border-radius: 20px;
+    border: 0px;
+    box-shadow: 0 0 5px black;
+}
+.button:focus {
+    box-shadow: 0 0 20px black;
+}
+.button:hover {
+    box-shadow: 0 0 20px black;
+}
+.button:active {
+    box-shadow: 0 0 0px black;
+}
+
+.formLable {
+    margin: 5px;
+    text-align: center;
+}
+
+.formInp {
+    box-shadow: 0 0 5px black;
+    margin: 5px;
+    width: 80%;
+    border: 0;
+    border-radius: 10px;
+    padding: 5px;
+}
+.formInp:focus {
+    box-shadow: 0 0 10px black;
+}
+.formInp:hover {
+    box-shadow: 0 0 10px black;
+}
+.formInp:active {
+    box-shadow: 0 0 0px black;
+}
+
+.formDiv {
+    width: 33%;
+    margin: 0px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+#totalInp {
+    width: 25%;
+}
+
+#nameInp {
+    width: 50%;
+}
+#line {
+    text-decoration: line-through;
+}
+
+@media screen and (max-aspect-ratio: 85/90) {
+    #formPut {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-content: stretch;
+        align-items: center;
+        font-size: 24px;
+    }    
+    #totalInp {
+        width: 80%;
+    }
+    
+    #nameInp {
+        width: 80%;
+    }
+    .button {
+        width: 80%;
+    }
+    h3 {
+        font-size: 26px;
+    }
+    #tesst {
+        font-size: 24px;
+    }
+}
+
+#auth {
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 20px;
+    box-shadow: 0 0 20px black;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin: 20px;
+    font-family: cursive;
+    align-items: center;
+}
+
+#errPass {
+    color: red;
+    margin: 0;
+    padding: 0 0 10px 0;
+}
+
+#authForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#avt {
+    margin: 0;
+}
+
+.avtText {
+    margin: 3px;
+}
+
+.avtInp {
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 0 0 5px;
+    margin-bottom: -20px;
+}
+
+#logButton {
+    background-color: white;
+    margin-top: 30px;
+    width: 80%;
+    height: 30px;
+    font-size: 18px;
+    font-family: cursive;
+    border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 0 0 5px black;
+}
+#logButton:focus {
+    box-shadow: 0 0 10px black;
+}
+#logButton:hover {
+    box-shadow: 0 0 10px black;
+}
+#logButton:active {
+    box-shadow: 0 0 0px black;
+}

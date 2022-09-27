@@ -1,0 +1,14 @@
+	<div id="auth">
+		<p id="errPass" hidden>Неверный пароль</p>
+		<form name="login" method="post" id="authForm">
+			<h4 id="avt" class="avtHed">Авторизация</h4>
+			<label class="avtText">Логин</label>
+			<input class="avtInp" type="text" name="userName" required/></br>
+			<label class="avtText">Пароль</label>
+			<input class="avtInp" type="password" name="userPass" required/>
+			<button type="submit" id="logButton" name="keyReg" value="send">Отправить</button>			
+		</form>
+	</div>
+	<script>
+		if (document.cookie.token==="nop") document.getElementById("errPass").hidden=false;
+	</script>
