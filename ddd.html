@@ -2,42 +2,38 @@
 <html lang="ru">
 	<link rel="stylesheet" href="style2.css" />
 	<header>
-		<h1 href="https://spamigor.site">Вернуться на основную страницу Толянуса</h1>
+		<a href="https://spamigor.site"><h1>Вернуться на основную страницу Толянуса</h1></a>
 	</header>
 	<div id="content"></div>
 	<button id="ssss">sssss</button>
 
-	<script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
-	<script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
-	<script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
-	<script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
-	<script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 	<script type="text/babel">
+		let root=ReactDOM.createRoot(document.getElementById("content"));
 		document.getElementById('ssss').onclick = function() {
 			console.log('hello');
 			listData.check.push(false);
 			listData.name.push('aaa');
 			listData.total.push(3);
 			listData.posTotal+=1;
-			ReactDOM.render(
-						<Table />,
-						document.getElementById('content')
-					);
+			root.render(<Table />);
 			console.log('list data 1');
 			console.log(listData);
 		}
-        let socket = new WebSocket("wss://spamigor.site:8080", 'echo-protocol');
+        /*let socket = new WebSocket("wss://spamigor.site:8080", 'echo-protocol');
 		socket.onopen = function(e) {
 			console.log('Соккет открыт');
-			socket.send('li: hello');
+			//socket.send('li: hello');
 		};
 		socket.onclose = function(e) {
 			console.log('соккет закрыт')
 		};
 		socket.onmessage = function(event) {
 			console.log(event.data);
-        };
+        };*/
 
         let listData = {
 			check: [false, false],
@@ -49,13 +45,10 @@
 		class Table extends React.Component {
 			constructor(props) {
 				super(props);
-				console.log(props.listData);
 				this.state = listData;
-				console.log(this.state);
 			}
 			handleName(event) {
 				this.setState({value: event.target.value});
-				console.log('hello');
 			}
 			handleTotal(event) {
 				let trig = Number(event.target.value) ? true : false;
@@ -70,11 +63,9 @@
 					if (a>0) this.setState({value2: a});
 					else this.setState({value2: ''});
 				}
-				console.log('hello');
 			}
 			handleCheck(event) {
 				this.setState({value3: event.target.value});
-				console.log('hello');
 			}
 
 			handleSubmit(event) {
@@ -88,10 +79,7 @@
 				listData.posTotal+=1;
 				this.state.posTotal = listData.posTotal;
 				this.setState(this.state);
-                socket.send('add Data');
-				console.log('add data');
-				console.log(listData);
-				console.log(this.state);
+                //socket.send('add Data');
 				event.preventDefault(); //отменяем отправку формы
 			}
 			handleChange(event) {
@@ -100,17 +88,14 @@
 				this.state.total.splice(event.target.value, 1);
 				listData.posTotal-=1;
 				this.state.posTotal = listData.posTotal;
-				console.log('list data 2');
-				console.log(listData);
-                socket.send('del Data');
+                //socket.send('del Data');
 				this.setState(this.state);
 			}
 
 			handleCheck(event) {
-				console.log(event.target.value);
 				this.state.check[event.target.value]=!this.state.check[event.target.value];
 				this.setState(this.state);
-                socket.send('check Data');
+                //socket.send('check Data');
 			}
 
 			render() {
