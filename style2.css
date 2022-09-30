@@ -11,6 +11,12 @@ a {
     color: black;
 }
 
+td {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 h1 {
     margin: 0px 0px 10px 0px;
     padding: 10px;
@@ -54,7 +60,7 @@ body {
 }
 
 #checkbox {
-    zoom: 2;
+    zoom: 3;
 }
 
 #tdList2 {
@@ -62,7 +68,8 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: space-between;
 }
 
 h3 {
@@ -74,8 +81,10 @@ h3 {
     border: 1px solid black;
 }
 
-.tdList {
-    display: flex;
+.listBox {
+    margin: 0;
+    padding-left: 10px;
+    font-size: x-large;
 }
 
 #content {
@@ -185,6 +194,7 @@ h2 {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    align-items: center;
 }
 
 #totalInp {
@@ -198,36 +208,25 @@ h2 {
     text-decoration: line-through;
 }
 
-@media screen and (max-aspect-ratio: 85/90) {
-    #formPut {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        align-content: stretch;
-        align-items: center;
-        font-size: 24px;
-    }    
-    #seckondLine {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-    #totalInp {
-        width: 80%;
-    }
-    
-    #nameInp {
-        width: 80%;
-    }
-    .button {
-        width: 80%;
-    }
-    h3 {
-        font-size: 26px;
-    }
-    #tesst {
-        font-size: 24px;
-    }
+.checkLists {
+    width: 70%;
+    margin: 10px;
+    padding: 10px;
+    background-color: cornsilk;
+    border: 0;
+    box-shadow: 0 0 5px;
+    border-radius: 20px;
+    font-family: cursive;
+    font-size: 20px;
+}
+.checkLists:focus {
+    box-shadow: 0 0 10px black;
+}
+.checkLists:hover {
+    box-shadow: 0 0 10px black;
+}
+.checkLists:active {
+    box-shadow: 0 0 0px black;
 }
 
 #auth {
@@ -329,23 +328,70 @@ h2 {
     box-shadow: 0 0 0px black;
 }
 
-.checkLists {
-    width: 70%;
-    margin: 10px;
+#placeUserList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 10px;
-    background-color: cornsilk;
+    margin: 10px;
+    background-color: white;
+    box-shadow: 0 0 5px black;
+    border-radius: 20px;
+    border: 1px solid black;
+    font-family: cursive;
+    font-size: x-large;
+}
+
+.usersList {
+    font-family: cursive;
+    font-size: large;
+    padding: 5px;
+    margin: 5px;
     border: 0;
     box-shadow: 0 0 5px;
     border-radius: 20px;
-    font-family: cursive;
-    font-size: 20px;
+    justify-content: flex-start;
 }
-.checkLists:focus {
+.usersList:focus {
     box-shadow: 0 0 10px black;
 }
-.checkLists:hover {
+.usersList:hover {
     box-shadow: 0 0 10px black;
 }
-.checkLists:active {
+.usersList:active {
     box-shadow: 0 0 0px black;
+}
+
+#newUser {
+    font-size: large;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 450px;
+    justify-content: space-around;
+}
+
+.formAdd {
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+    width: 270px;
+}
+
+#formAddInput {
+    border: 0;
+    box-shadow: 0 0 5px black;
+    border-radius: 10px;
+    font-size: larger;
+}
+#formAddInput:focus {
+    box-shadow: 0 0 10px black;
+}
+#formAddInput:hover {
+    box-shadow: 0 0 10px black;
+}
+.bilList {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }

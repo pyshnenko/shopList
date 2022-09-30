@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="ru">
+	<title>Список покупок</title>
 	<meta charset="utf-8" name="viewport" content="user-scalable=no">
 	<link rel="stylesheet" href="style2.css" />
+	<link rel="stylesheet" href="style3.css" />
 	<header>
 		<a href="https://spamigor.site"><h1>Вернуться на основную страницу Толянуса</h1></a>
 	</header>
 	<div id="content"></div>
 	<button id="ssss">sssss</button>
-	<button id="ssssq">sssssq</button>
 
 	<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 	<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script src="test1.js"></script>
 
 	<script type="text/babel">
 		let root=ReactDOM.createRoot(document.getElementById("content"));
@@ -27,27 +29,6 @@
 			console.log(event.data);
         };*/
 
-		let setList = 0;
-		let users = false;
-		let menu = true;
-
-        let listData = [{
-			listName: 'Список покупок 1',
-			users: ['spamigor'],
-			check: [false, false],
-			name: ['Название', 'арбуз'],
-			total: [0,1],
-			posTotal: 1,
-			valBuf: 0
-		},{
-			listName: 'Список покупок 2',
-			users: ['spamigor'],
-			check: [false, true],
-			name: ['Название', 'дыня'],
-			total: [0,3],
-			posTotal: 1,
-			valBuf: 0
-		}];
 		class Table extends React.Component {
 			constructor() {
 				super();
@@ -58,20 +39,12 @@
 				this.setState(this.state);
 			}
 			handleTotal(event) {
-				let trig = Number(event.target.value) ? true : false;
+				let trig = ((Number(event.target.value)>=0)||(event.target.value=='')) ? true : false;
 				if (trig)
 				{
 					this.state[setList].value2 = event.target.value;
 					this.state[setList].valBuf = event.target.value;
 					this.setState(this.state);
-				}
-				else {
-					this.state[setList].value2 = event.target.value;
-					if (a>0) this.setState(this.state);
-					else {
-						this.state[setList].value2 = '';
-						this.setState(this.state);
-					}
 				}
 			}
 			handleCheck(event) {
@@ -80,8 +53,6 @@
 			}
 
 			handleSubmit(event) {
-				console.log(this.state[setList]);
-				console.log(event);
 				this.state[setList].check.push(false);
 				this.state[setList].name.push(this.state[setList].value);
 				this.state[setList].total.push(Number(this.state[setList].value2));
@@ -94,8 +65,6 @@
 				this.setState(this.state);
                 //socket.send('add Data');
 				event.preventDefault(); //отменяем отправку формы
-				console.log('list data 2');
-				console.log(listData);
 			}
 			handleChange(event) {
 				this.state[setList].check.splice(event.target.value, 1);
@@ -113,20 +82,46 @@
                 //socket.send('check Data');
 			}
 			handleMenu(event) {
-				if (event.target.value==='menu') {
-					menu=true;
+				supTest(event.target.value);
+				this.setState(this.state);
+			}
+
+			//отработчик кнопки списка
+
+			handleList(event) {
+				menu=false;
+				if (event.target.value==='9999')  //если нажата "новый..."
+				{
+					setList=this.state.length;
+					this.state.push(addList('spamigor'));
 				}
-				else {
-					users=!users;
+				else { 							//если открываешь список
+					setList=Number(event.target.value);
 				}
 				this.setState(this.state);
 			}
-			handleList(event) {
-				menu=false;
-				console.log('event.target.value');
-				console.log(event.target.value);
-				setList=event.target.value;
+			handleSetUser(event) {
+				let tBuf = Number(event.target.value);
+				users.add=false;
+				if ((tBuf)||(tBuf===0))
+					tBuf==1587 ? users.add=true : users.num==(-1) ? users.num=tBuf : users.num=(-1);
+				else {
+					listData[setList].users.splice(users.num,1);
+					users.num=(-1);
+				}					
 				this.setState(this.state);
+			}
+			handleAddUser(event) {
+				this.state[setList].valueAdd = event.target.value;
+				this.setState(this.state);
+				this.setState(this.state);
+			}
+			handleAddUserFinaly(event) {
+				listData[setList].users.push(this.state[setList].valueAdd);
+				users.add=false;
+				this.state[setList].valueAdd='';
+				this.setState(this.state);
+				event.preventDefault();
 			}
 
 			render() {
@@ -159,57 +154,74 @@
 								<p className="formLable">Количество</p>
 								<input className="formInp" value={this.state[setList].value2} onChange={this.handleTotal.bind(this)} required />
 							</div>
-							<input className="button" type="submit" />
+							<input className="button" type="submit" value='Добавить' />
 						</div>
 					</form>
 				</div>;
-				let usersButtonsText = (users ? 'Скрыть' : 'Пользователи');
+				let usersButtonsText = (users.look ? 'Скрыть' : 'Пользователи');
 				let settingButtons = 
 					<div id="setButtons">
 						<button className='menuButton' value='menu' onClick={this.handleMenu.bind(this)}>Вернуться к выбору</button>
 						<button className='menuButton' value='users' onClick={this.handleMenu.bind(this)}>{usersButtonsText}</button>
 					</div>;
-				let listlist = listData.map((item, index) => <button className='checkLists' value={index} onClick={this.handleList.bind(this)}>{item.listName}</button>);
+
+				//Список перечней формируется тут: 
+
+				let listlist = listData.map((item, index) => <div className='bilList'>
+					<button className='checkLists' value={index} onClick={this.handleList.bind(this)}>{item.listName}</button>
+					<button className='usersList'>Удалить</button></div>);
+
+				//добавляем кнопку "Новый список"
+
+				listlist.push(<button className='checkLists' value='9999' onClick={this.handleList.bind(this)}>Новый список</button>);
+
+				//
+
 				let readyList = listlist;
 				let readyButtons;
 				let readyUsersButtons;
-				let usersButtons = listData[setList].users.map((item, index) => <button className='usersList' value={index}>{item}</button>);
+				/*let usersButtons = listData[setList].users.map((item, index) => <div><button className='usersList' value={index} onClick={this.handleSetUser.bind(this)}>
+					{item}
+				</button></div>);*/
+				let usersButtons = [];
+				for (let i=0; i<listData[setList].users.length; i++) {
+					(i==users.num) ?
+					usersButtons.push(<div>
+							<button className='usersList' value={i} onClick={this.handleSetUser.bind(this)}>{listData[setList].users[i]}</button>
+							<button className='usersList' value='del' onClick={this.handleSetUser.bind(this)}>Удалить</button>
+						</div>) :
+					usersButtons.push(<div>
+						<button className='usersList' value={i} onClick={this.handleSetUser.bind(this)}>{listData[setList].users[i]}</button>
+					</div>);
+				}				
+				if (users.add) {
+					usersButtons.push(<div><form id="newUser" onSubmit={this.handleAddUserFinaly.bind(this)}>
+							<div><p className="formAdd">Введи ник</p>
+							<input className="formAdd" id="formAddInput" value={this.state[setList].valueAdd} onChange={this.handleAddUser.bind(this)} required /></div>
+							<input className="usersList" type="submit" value='Добавить'/>
+						</form></div>)
+				}
+				if (!users.add) usersButtons.push(<div><button className='usersList' value='1587' onClick={this.handleSetUser.bind(this)}>Добавить</button></div>);
 				if (!menu) {
 					readyList = fullList;
 					readyButtons = settingButtons;
 				}
-				if (users) readyUsersButtons = usersButtons;
+				if (users.look) readyUsersButtons = <div id='placeUserList'>{usersButtons}</div>;
 				return <div id='result'>
 						{readyButtons}
-						<div>
-							{readyUsersButtons}
-						</div>
+						{readyUsersButtons}
 						{readyList}
 				</div>
 			}
 		}
-		let ama = new Table;
 		ReactDOM.render(
 					<Table />,
 					document.getElementById('content')
 				);
 		
 		document.getElementById('ssss').onclick = function() {
-			listData[setList].check.push(false);
-			listData[setList].name.push('aaa');
-			listData[setList].total.push(3);
-			listData[setList].posTotal+=1;
-			console.log('state');
-			console.log(this.state);
-			root.render(<Table />);
-			console.log('list data 1');
-			console.log(listData);
-		}
-		
-		document.getElementById('ssssq').onclick = function() {
-			root.render(<Table />);
-			console.log('list data 1');
-			console.log(listData);
+			test();
+    		root.render(<Table />);
 		}
 	</script>
 </html>

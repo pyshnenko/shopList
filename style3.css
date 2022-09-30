@@ -1,0 +1,51 @@
+@media screen and (max-aspect-ratio: 85/90) {
+    .checkLists {
+        font-size: xx-large;
+    }
+    #formPut {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-content: stretch;
+        align-items: center;
+        font-size: xx-large;
+    }    
+    #seckondLine {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    #totalInp {
+        width: 80%;
+    }
+    
+    #nameInp {
+        width: 80%;
+    }
+    .button {
+        width: 80%;
+        font-size: xx-large;
+    }
+    h1, h2, h3 {
+        font-size: xx-large;
+    }
+    
+    #tesst {
+        font-size: xx-large;
+    }
+    .menuButton {
+        font-size: xx-large;
+    }
+    .formInp {
+        font-size: xx-large;
+    }
+    .listBox {
+        font-size: xx-large;
+    }
+    .usersList {
+        font-size: xx-large;
+    }
+    #newUser {
+        flex-direction: column;
+    }
+}
